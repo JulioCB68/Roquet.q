@@ -19,6 +19,10 @@ export default createGlobalStyle`
     font-family: 'Poppins', sans-serif;
   }
 
+  img {
+    width: 100%;
+  }
+
 /* -------------------- COLORS -------------------- */
   :root {
     --Linear: linear-gradient(195.96deg, #5498FF -122.01%, #428EFF -8.36%, #297FFF 98.4%);
@@ -34,5 +38,6 @@ export default createGlobalStyle`
     --GreyBlue: #A1B2CD;
     --HoverBlue: #5699FF;
     --HoverRed: #EA4B65;
+    --ColorText: #FAFAFA;
   }
 `;
