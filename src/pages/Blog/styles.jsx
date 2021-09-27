@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
+  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   background: var(--White);
   padding: 0 10rem;
 `;
@@ -105,6 +105,9 @@ export const Ask = styled.div`
       > img {
         width: 8%;
         margin: 0 0.75rem;
+      }
+      > p {
+        cursor: pointer;
       }
     }
   }

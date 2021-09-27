@@ -19,7 +19,7 @@ import LoginIcon from '../../assets/icons/LoginIcon.svg';
 import Users from '../../assets/icons/UsersIconWhite.svg';
 
 import { Input } from '../../components/Input/Input';
-import { Button } from '../../components/Button/Button';
+import { Button } from '../../components/Button/Button/Button';
 
 export function CreateRoom() {
 
