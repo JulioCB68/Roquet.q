@@ -8,6 +8,7 @@ export const Container = styled.div`
   flex-direction: column;
   background: var(--White);
   padding: 0 10rem;
+  overflow: hidden;
 `;
 
 export const Logo = styled.img`
@@ -34,6 +35,10 @@ export const QuestionArea = styled.div`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    width: 0px;
+}
 `;
 
 export const Title = styled.h1`
@@ -50,9 +55,10 @@ export const TextArea = styled.textarea`
   height: 100%;
   border: 1px solid red;
   resize: none;
-  padding: 0.75rem 1rem 6rem 1rem;
+  padding: 0.75rem 1rem 8rem 1rem;
   border: 2px solid #A1B2CD;
   border-radius: 0 0.5rem 0.5rem 0.5rem;
+  overflow: hidden;
 `;
 
 export const FooterArea = styled.div`

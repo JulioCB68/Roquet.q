@@ -17,6 +17,11 @@ import {
   Modal,
   ContainerModal,
   ButtonModal,
+  TitleModal,
+  TextModal,
+  SubContainerModal,
+  SubTextModal,
+  ContainerButtonModal,
 } from "../../components/Modal/styles";
 
 import ImageLogo from "../../assets/images/Logo.svg";
@@ -97,13 +102,19 @@ export function Blog() {
           </div>
           <div>
             <img src={Delete} alt="" />
-            {/* <p onClick={() => deleteQuestion(index)}> Excluir </p> */}
             <p onClick={() => setIsModalIsVisible(true)}> Excluir </p>
             {isModalIsVisible ? (
               <Modal>
                 <ContainerModal>
-                  <ButtonModal onClick={() => setIsModalIsVisible(false)}> Cancelar </ButtonModal>
-                  <ButtonModal onClick={() => deleteQuestion(index)}> Deletar </ButtonModal>
+                  <TitleModal> Excluir pergunta </TitleModal>
+                  <TextModal> Tem certeza que você deseja excluir esta pergunta? </TextModal>
+                  <SubContainerModal>
+                    <SubTextModal> "{item.name}" </SubTextModal>
+                    <ContainerButtonModal>
+                      <ButtonModal onClick={() => setIsModalIsVisible(false)}> Cancelar </ButtonModal>
+                      <ButtonModal onClick={() => deleteQuestion(index)}> Deletar </ButtonModal>
+                    </ContainerButtonModal>
+                  </SubContainerModal>
                 </ContainerModal>
               </Modal>
             ) : null}
@@ -145,3 +156,4 @@ export function Blog() {
     </Container>
   );
 }
+ 
