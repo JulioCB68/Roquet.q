@@ -38,11 +38,11 @@ export const QuestionArea = styled.div`
   overflow: scroll;
   ::-webkit-scrollbar {
     width: 0px;
-}
+  }
 `;
 
 export const Title = styled.h1`
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: bold;
   font-size: 1.25rem;
   line-height: 2.625rem;
@@ -56,7 +56,7 @@ export const TextArea = styled.textarea`
   border: 1px solid red;
   resize: none;
   padding: 0.75rem 1rem 8rem 1rem;
-  border: 2px solid #A1B2CD;
+  border: 2px solid #a1b2cd;
   border-radius: 0 0.5rem 0.5rem 0.5rem;
   overflow: hidden;
 `;
@@ -100,7 +100,7 @@ export const Ask = styled.div`
     display: flex;
     align-items: center;
     align-self: flex-end;
-    padding:  1.625rem 2rem;
+    padding: 1.625rem 2rem;
 
     > div {
       width: 100%;
@@ -119,5 +119,6 @@ export const Ask = styled.div`
   }
 `;
 
-
-
+export const ContainerQuestion = styled.div`
+  width: 100%;
+`;

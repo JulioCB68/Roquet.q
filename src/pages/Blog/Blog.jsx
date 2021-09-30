@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 import {
   Container,
@@ -10,52 +10,28 @@ import {
   TextArea,
   FooterArea,
   ImageAsk,
-  Ask,
 } from "./styles";
-
-import {
-  Modal,
-  ContainerModal,
-  ButtonModal,
-  TitleModal,
-  TextModal,
-  SubContainerModal,
-  SubTextModal,
-  ContainerButtonModal,
-} from "../../components/Modal/styles";
 
 import ImageLogo from "../../assets/images/Logo.svg";
 import Users from "../../assets/icons/UsersIconWhite.svg";
 import CopyIcon from "../../assets/icons/CopyIcon.svg";
-import Avatar from "../../assets/icons/Avatar.svg";
-import Read from "../../assets/icons/Read.svg";
-import Delete from "../../assets/icons/Delete.svg";
 import AskAn from "../../assets/images/AskAn.svg";
 
 import { Button } from "../../components/Button/ButtonHome/ButtonHome";
 import { ButtonSend } from "../../components/Button/ButtonSend/ButtonSend";
 import { EmptyState } from "../../components/EmptyState/EmptyState";
+import { Question } from "../../components/Question";
 
 import utils from "../../utils";
+import server from "../../server";
+
+import { useQuestions } from "../../hooks/localStorage";
 
 export function Blog() {
-  const [isModalIsVisible, setIsModalIsVisible] = useState(false);
-
-  const [questions, setQuestions] = useState(utils.getLocalStorage);
+  const { setQuestions } = useQuestions();
 
   const questionValue = useRef();
   const button = useRef();
-
-  const deleteQuestion = (id) => {
-    console.log(id);
-    const db_question = utils.getLocalStorage();
-    const quest = db_question.find((item) => item.id === id);
-    console.log(db_question.indexOf(quest));
-    db_question.splice(db_question.indexOf(quest), 1);
-    utils.setLocalStorage(db_question);
-    setQuestions(utils.getLocalStorage);
-    setIsModalIsVisible(false);
-  };
 
   const clearField = (inputQuestion) => {
     inputQuestion.value = "";
@@ -72,53 +48,9 @@ export function Blog() {
     } else {
       utils.createQuestion(question);
       clearField(inputQuestion);
-      setQuestions(utils.getLocalStorage);
+      setQuestions(server.getLocalStorage);
     }
   };
-
-  const show = questions.map((item) => {
-    return (
-      <Ask>
-        <header>
-          <img src={Avatar} alt="" />
-          {item.question}
-          <br />
-          {item.id}
-        </header>
-        <footer>
-          <div>
-            <img src={Read} alt="" />
-            <p> Marcar como lido </p>
-          </div>
-          <div>
-            <img src={Delete} alt="" />
-            <p onClick={() => setIsModalIsVisible(true)}> Excluir </p>
-            {isModalIsVisible ? (
-              <Modal>
-                <ContainerModal>
-                  <TitleModal> Excluir pergunta </TitleModal>
-                  <TextModal>
-                    Tem certeza que você deseja excluir esta pergunta
-                  </TextModal>
-                  <SubContainerModal>
-                    <SubTextModal> "{item.question}" </SubTextModal>
-                    <ContainerButtonModal>
-                      <ButtonModal onClick={() => setIsModalIsVisible(false)}>
-                        Cancelar
-                      </ButtonModal>
-                      <ButtonModal onClick={() => deleteQuestion(item.id)}>
-                        Deletar
-                      </ButtonModal>
-                    </ContainerButtonModal>
-                  </SubContainerModal>
-                </ContainerModal>
-              </Modal>
-            ) : null}
-          </div>
-        </footer>
-      </Ask>
-    );
-  });
 
   return (
     <Container>
@@ -144,7 +76,7 @@ export function Blog() {
             ref={button}
           />
         </FooterArea>
-        {show.length ? show : <EmptyState />}
+        {server.getLocalStorage() == "" ? <EmptyState /> : <Question />}
       </QuestionArea>
     </Container>
   );

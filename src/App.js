@@ -1,19 +1,25 @@
 import React from "react";
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from "react-router-dom";
 
-import GlobalStyle from './assets/styles/GlobalStyle';
+import GlobalStyle from "./assets/styles/GlobalStyle";
+import QuestionProvider from "./hooks/localStorage";
+import ModalProvider from "./hooks/modal";
 
-import { Home } from './pages/Home/Home';
-import { CreateRoom } from './pages/CreateRoom/CreateRoom';
-import { Blog } from './pages/Blog/Blog';
+import { Home } from "./pages/Home/Home";
+import { CreateRoom } from "./pages/CreateRoom/CreateRoom";
+import { Blog } from "./pages/Blog/Blog";
 
 function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Route path='/' exact component={Home} />
-      <Route path='/create_room' component={CreateRoom} />
-      <Route path='/Home' component={Blog} />
+      <QuestionProvider>
+        <ModalProvider>
+          <Route path="/" exact component={Home} />
+          <Route path="/create_room" component={CreateRoom} />
+          <Route path="/Home" component={Blog} />
+        </ModalProvider>
+      </QuestionProvider>
     </BrowserRouter>
   );
 }
