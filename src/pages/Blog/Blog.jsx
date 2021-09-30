@@ -36,64 +36,54 @@ import { Button } from "../../components/Button/ButtonHome/ButtonHome";
 import { ButtonSend } from "../../components/Button/ButtonSend/ButtonSend";
 import { EmptyState } from "../../components/EmptyState/EmptyState";
 
+import utils from "../../utils";
+
 export function Blog() {
   const [isModalIsVisible, setIsModalIsVisible] = useState(false);
+
+  const [questions, setQuestions] = useState(utils.getLocalStorage);
 
   const questionValue = useRef();
   const button = useRef();
 
-  const getLocalStorage = () =>
-    JSON.parse(localStorage.getItem("db_question")) ?? [];
-
-  const setLocalStorage = (db_question) =>
-    localStorage.setItem("db_question", JSON.stringify(db_question));
-
-  const createQuestion = (question) => {
-    const db_question = getLocalStorage();
-    db_question.push(question);
-    setLocalStorage(db_question);
+  const deleteQuestion = (id) => {
+    console.log(id);
+    const db_question = utils.getLocalStorage();
+    const quest = db_question.find((item) => item.id === id);
+    console.log(db_question.indexOf(quest));
+    db_question.splice(db_question.indexOf(quest), 1);
+    utils.setLocalStorage(db_question);
+    setQuestions(utils.getLocalStorage);
+    setIsModalIsVisible(false);
   };
 
-  const readClient = () => {
-    getLocalStorage();
-    window.location.reload();
+  const clearField = (inputQuestion) => {
+    inputQuestion.value = "";
   };
-
-  const deleteQuestion = (index) => {
-    const db_question = getLocalStorage();
-    db_question.splice(index, 1);
-    setLocalStorage(db_question);
-    readClient();
-  };
-
-  const clearField = () => {
-    const questionName = (questionValue.current.value = "");
-  };
-
-  const generateID = () => Math.round(Math.random() * 1000);
 
   const registerQuestion = () => {
-    const questionName = questionValue.current.value;
+    const inputQuestion = questionValue.current;
     const question = {
-      id: generateID(),
-      name: questionName,
+      id: utils.generateID(),
+      question: inputQuestion.value,
     };
-    if (questionName === "") {
+    if (inputQuestion.value === "") {
       alert("Preencha o campo com uma pergunta...");
     } else {
-      const db_question = getLocalStorage();
-      createQuestion(question);
-      clearField();
-      readClient();
+      utils.createQuestion(question);
+      clearField(inputQuestion);
+      setQuestions(utils.getLocalStorage);
     }
   };
 
-  const show = getLocalStorage().map((item, index) => {
+  const show = questions.map((item) => {
     return (
       <Ask>
         <header>
           <img src={Avatar} alt="" />
-          {item.name}
+          {item.question}
+          <br />
+          {item.id}
         </header>
         <footer>
           <div>
@@ -107,12 +97,18 @@ export function Blog() {
               <Modal>
                 <ContainerModal>
                   <TitleModal> Excluir pergunta </TitleModal>
-                  <TextModal> Tem certeza que você deseja excluir esta pergunta? </TextModal>
+                  <TextModal>
+                    Tem certeza que você deseja excluir esta pergunta
+                  </TextModal>
                   <SubContainerModal>
-                    <SubTextModal> "{item.name}" </SubTextModal>
+                    <SubTextModal> "{item.question}" </SubTextModal>
                     <ContainerButtonModal>
-                      <ButtonModal onClick={() => setIsModalIsVisible(false)}> Cancelar </ButtonModal>
-                      <ButtonModal onClick={() => deleteQuestion(index)}> Deletar </ButtonModal>
+                      <ButtonModal onClick={() => setIsModalIsVisible(false)}>
+                        Cancelar
+                      </ButtonModal>
+                      <ButtonModal onClick={() => deleteQuestion(item.id)}>
+                        Deletar
+                      </ButtonModal>
                     </ContainerButtonModal>
                   </SubContainerModal>
                 </ContainerModal>
@@ -123,9 +119,6 @@ export function Blog() {
       </Ask>
     );
   });
-
-  const teste =
-    localStorage.getItem("db_question") === null ? <EmptyState /> : show;
 
   return (
     <Container>
@@ -151,9 +144,8 @@ export function Blog() {
             ref={button}
           />
         </FooterArea>
-        {teste}
+        {show.length ? show : <EmptyState />}
       </QuestionArea>
     </Container>
   );
 }
- 
