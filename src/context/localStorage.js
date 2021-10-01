@@ -1,26 +1,26 @@
 import React, { createContext, useState, useContext } from "react";
 
-import server from "../server";
+import utils from "../utils";
 
-const CountContext = createContext();
+const QuestionContext = createContext();
 
 export default function QuestionProvider({ children }) {
-  const [questions, setQuestions] = useState(server.getLocalStorage);
+  const [questions, setQuestions] = useState(utils.getLocalStorage);
 
   return (
-    <CountContext.Provider
+    <QuestionContext.Provider
       value={{
         questions,
         setQuestions,
       }}
     >
       {children}
-    </CountContext.Provider>
+    </QuestionContext.Provider>
   );
 }
 
 export function useQuestions() {
-  const context = useContext(CountContext);
+  const context = useContext(QuestionContext);
   if (!context)
     throw new Error("useQuestions must be used within a CountProvider");
   const { questions, setQuestions } = context;

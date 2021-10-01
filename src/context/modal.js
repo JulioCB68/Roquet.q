@@ -1,24 +1,24 @@
 import React, { createContext, useState, useContext } from "react";
 
-const CountContext = createContext();
+const ModalContext = createContext();
 
 export default function ModalProvider({ children }) {
   const [isModalIsVisible, setIsModalIsVisible] = useState(false);
 
   return (
-    <CountContext.Provider
+    <ModalContext.Provider
       value={{
         isModalIsVisible,
         setIsModalIsVisible,
       }}
     >
       {children}
-    </CountContext.Provider>
+    </ModalContext.Provider>
   );
 }
 
 export function useModal() {
-  const context = useContext(CountContext);
+  const context = useContext(ModalContext);
   if (!context) throw new Error("useModal must be used within a CountProvider");
   const { isModalIsVisible, setIsModalIsVisible } = context;
   return { isModalIsVisible, setIsModalIsVisible };

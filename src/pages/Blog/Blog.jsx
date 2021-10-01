@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 
 import {
   Container,
@@ -20,15 +20,14 @@ import AskAn from "../../assets/images/AskAn.svg";
 import { Button } from "../../components/Button/ButtonHome/ButtonHome";
 import { ButtonSend } from "../../components/Button/ButtonSend/ButtonSend";
 import { EmptyState } from "../../components/EmptyState/EmptyState";
-import { Question } from "../../components/Question";
+import { Question } from "../../components/Question/index";
 
 import utils from "../../utils";
-import server from "../../server";
 
-import { useQuestions } from "../../hooks/localStorage";
+import { QuestionContext } from "../../context/question";
 
 export function Blog() {
-  const { setQuestions } = useQuestions();
+  const { setQuestions } = useContext(QuestionContext);
 
   const questionValue = useRef();
   const button = useRef();
@@ -48,7 +47,7 @@ export function Blog() {
     } else {
       utils.createQuestion(question);
       clearField(inputQuestion);
-      setQuestions(server.getLocalStorage);
+      setQuestions(utils.getLocalStorage);
     }
   };
 
@@ -76,7 +75,7 @@ export function Blog() {
             ref={button}
           />
         </FooterArea>
-        {server.getLocalStorage() == "" ? <EmptyState /> : <Question />}
+        {utils.getLocalStorage() == "" ? <EmptyState /> : <Question />}
       </QuestionArea>
     </Container>
   );

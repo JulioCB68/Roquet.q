@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Ask, ContainerQuestion } from "../../pages/Blog/styles";
 
@@ -8,12 +8,11 @@ import Delete from "../../assets/icons/Delete.svg";
 
 import Modal from "../../components/Modal";
 
-import { useQuestions } from "../../hooks/localStorage";
-import { useModal } from "../../hooks/modal";
+import { QuestionContext } from "../../context/question";
 
 export function Question() {
-  const { questions } = useQuestions();
-  const { isModalIsVisible, setIsModalIsVisible } = useModal();
+  const { questions, isModalIsVisible, setIsModalIsVisible } =
+    useContext(QuestionContext);
 
   const quest = questions.map((item) => (
     <Ask key={item.id}>

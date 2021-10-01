@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import server from "../../server";
+import utils from "../../utils";
 
-import { useQuestions } from "../../hooks/localStorage";
-import { useModal } from "../../hooks/modal";
+import { QuestionContext } from "../../context/question";
 
 import {
   Modal,
@@ -17,17 +16,16 @@ import {
 } from "./styles";
 
 function Seila(props) {
-  const { setQuestions } = useQuestions();
-  const { setIsModalIsVisible } = useModal();
+  const { setIsModalIsVisible, setQuestions } = useContext(QuestionContext);
 
   const deleteQuestion = (id) => {
     console.log(id);
-    const db_question = server.getLocalStorage();
+    const db_question = utils.getLocalStorage();
     const quest = db_question.find((item) => item.id === id);
     console.log(db_question.indexOf(quest));
     db_question.splice(db_question.indexOf(quest), 1);
-    server.setLocalStorage(db_question);
-    setQuestions(server.getLocalStorage);
+    utils.setLocalStorage(db_question);
+    setQuestions(utils.getLocalStorage);
     setIsModalIsVisible(false);
   };
 
